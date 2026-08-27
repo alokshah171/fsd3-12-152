@@ -1,8 +1,8 @@
 import readline from "readline/promises";
-import { stdin, stdout } from "process";
+import { pid, stdin, stdout } from "process";
 import { readFile, writeFile } from "fs/promises";
 
-const FILE = "./LAB 2/product.json";
+const FILE = "product.json";
 
 const getCart = async () => {
   const data = await readFile(FILE, "utf-8");
@@ -30,6 +30,19 @@ const showCart = async () => {
   console.table(data);
 };
 
+const removeProduct = async (pid) => {
+    const data = await getCart();
+    const count = data.length;
+    const newData = data.filter((item) => item.id != pid);
+    const newCount = newData.length;
+
+    if (count == newCount) {
+        console.log(`Product with id ${pid} not found!`);
+    } else {
+        await saveCart(newData);
+        console.log(`Product with id ${pid} deleted successfully!`);
+    }
+};
 const main = async () => {
   let choice;
   const cin = readline.createInterface({ input: stdin, output: stdout });
@@ -56,6 +69,7 @@ const main = async () => {
           price: Number(price),
           qty: Number(qty),
         };
+        console.log(product)
         await addToCart(product);
 
         break;

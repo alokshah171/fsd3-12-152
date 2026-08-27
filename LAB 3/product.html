@@ -1,0 +1,1150 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Indian Companies Explorer</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            background: linear-gradient(135deg, #0f172a, #1e3a8a);
+            color: white;
+            padding: 55px 8%;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        header h1 {
+            font-size: 46px;
+            margin-bottom: 15px;
+        }
+
+        header p {
+            max-width: 700px;
+            line-height: 1.7;
+            color: #dbeafe;
+        }
+
+        /* ================= NAV ================= */
+
+        nav {
+            background: white;
+            padding: 15px 8%;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+
+        .nav-text {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        /* ================= MAIN ================= */
+
+        main {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* ================= STATS ================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 35px;
+        }
+
+        .stat {
+            background: white;
+            padding: 22px;
+            border-radius: 14px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .stat h2 {
+            color: #1d4ed8;
+            margin-bottom: 5px;
+        }
+
+        .stat p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* ================= CONTROLS ================= */
+
+        .controls {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 30px;
+        }
+
+        .search {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 9px;
+            font-size: 15px;
+            outline: none;
+            margin-bottom: 15px;
+        }
+
+        .search:focus {
+            border-color: #2563eb;
+        }
+
+        .filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filter-btn {
+            border: 1px solid #d1d5db;
+            background: white;
+            padding: 9px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #1d4ed8;
+            color: white;
+            border-color: #1d4ed8;
+        }
+
+        /* ================= SECTION ================= */
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-title h2 {
+            font-size: 25px;
+        }
+
+        .result-count {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* ================= COMPANY GRID ================= */
+
+        .company-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .company-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 22px;
+            transition: 0.25s;
+            cursor: pointer;
+        }
+
+        .company-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(15, 23, 42, 0.10);
+            border-color: #bfdbfe;
+        }
+
+        .company-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 18px;
+        }
+
+        .company-logo {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .rank {
+            font-size: 12px;
+            color: #64748b;
+            background: #f1f5f9;
+            padding: 6px 9px;
+            border-radius: 20px;
+        }
+
+        .company-card h3 {
+            font-size: 20px;
+            margin-bottom: 7px;
+        }
+
+        .sector {
+            display: inline-block;
+            font-size: 12px;
+            color: #1d4ed8;
+            background: #eff6ff;
+            padding: 6px 10px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+        }
+
+        .description {
+            color: #64748b;
+            line-height: 1.6;
+            font-size: 14px;
+            margin-bottom: 18px;
+        }
+
+        .details {
+            border-top: 1px solid #eef2f7;
+            padding-top: 15px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 9px;
+            font-size: 13px;
+        }
+
+        .detail-row span:first-child {
+            color: #64748b;
+        }
+
+        .detail-row span:last-child {
+            font-weight: 600;
+        }
+
+        .view-btn {
+            width: 100%;
+            margin-top: 15px;
+            padding: 11px;
+            border: none;
+            background: #172554;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .view-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* ================= MODAL ================= */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.65);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: white;
+            width: 100%;
+            max-width: 700px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 18px;
+            padding: 30px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 18px;
+            border: none;
+            background: #f1f5f9;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .modal-header {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 15px;
+            background: #eff6ff;
+            color: #1d4ed8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 22px;
+        }
+
+        .modal-header h2 {
+            margin-bottom: 7px;
+        }
+
+        .modal-header p {
+            color: #64748b;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .info-box {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .info-box small {
+            color: #64748b;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .info-box strong {
+            font-size: 15px;
+        }
+
+        .modal-description {
+            line-height: 1.7;
+            color: #475569;
+            margin-bottom: 20px;
+        }
+
+        .website {
+            display: inline-block;
+            text-decoration: none;
+            background: #1d4ed8;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 8px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            margin-top: 60px;
+            background: #0f172a;
+            color: #cbd5e1;
+            text-align: center;
+            padding: 30px;
+            font-size: 13px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 900px) {
+
+            .company-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            header h1 {
+                font-size: 38px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 40px 6%;
+            }
+
+            header h1 {
+                font-size: 32px;
+            }
+
+            .company-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-text {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+    <header>
+
+        <div class="header-content">
+
+            <span class="badge">🇮🇳 Indian Business Directory</span>
+
+            <h1>India's Top Companies</h1>
+
+            <p>
+                Explore leading Indian companies across technology, banking,
+                energy, automobiles, FMCG, pharmaceuticals, telecom,
+                infrastructure and other major sectors.
+            </p>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= NAV ================= -->
+
+    <nav>
+
+        <div class="nav-inner">
+
+            <div class="logo">
+                IndiaCorp
+            </div>
+
+            <div class="nav-text">
+                Public Company Information
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main>
+
+        <!-- Statistics -->
+
+        <section class="stats">
+
+            <div class="stat">
+                <h2 id="companyCount">18</h2>
+                <p>Companies Listed</p>
+            </div>
+
+            <div class="stat">
+                <h2 id="sectorCount">10</h2>
+                <p>Major Sectors</p>
+            </div>
+
+            <div class="stat">
+                <h2>₹T+</h2>
+                <p>Large Market Leaders</p>
+            </div>
+
+            <div class="stat">
+                <h2>🇮🇳</h2>
+                <p>India Focused</p>
+            </div>
+
+        </section>
+
+
+        <!-- Search and Filters -->
+
+        <section class="controls">
+
+            <input
+                type="text"
+                id="search"
+                class="search"
+                placeholder="Search company, sector or industry..."
+            >
+
+            <div class="filters">
+
+                <button class="filter-btn active" data-sector="All">
+                    All
+                </button>
+
+                <button class="filter-btn" data-sector="IT">
+                    IT
+                </button>
+
+                <button class="filter-btn" data-sector="Banking">
+                    Banking
+                </button>
+
+                <button class="filter-btn" data-sector="Energy">
+                    Energy
+                </button>
+
+                <button class="filter-btn" data-sector="Auto">
+                    Automobile
+                </button>
+
+                <button class="filter-btn" data-sector="FMCG">
+                    FMCG
+                </button>
+
+                <button class="filter-btn" data-sector="Telecom">
+                    Telecom
+                </button>
+
+                <button class="filter-btn" data-sector="Pharma">
+                    Pharma
+                </button>
+
+                <button class="filter-btn" data-sector="Infrastructure">
+                    Infrastructure
+                </button>
+
+                <button class="filter-btn" data-sector="Steel">
+                    Steel
+                </button>
+
+                <button class="filter-btn" data-sector="Consumer">
+                    Consumer
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- Companies -->
+
+        <section>
+
+            <div class="section-title">
+
+                <h2>Leading Companies</h2>
+
+                <span class="result-count" id="resultCount">
+                    Showing 18 companies
+                </span>
+
+            </div>
+
+            <div class="company-grid" id="companyGrid"></div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= MODAL ================= -->
+
+    <div class="modal" id="modal">
+
+        <div class="modal-box">
+
+            <button class="close" onclick="closeModal()">
+                ×
+            </button>
+
+            <div id="modalContent"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            Indian Companies Explorer
+        </p>
+
+        <p style="margin-top:8px;">
+            Educational project • Publicly available company information
+        </p>
+
+    </footer>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        const companies = [
+
+            {
+                name: "Reliance Industries",
+                short: "R",
+                sector: "Energy",
+                founded: "1973",
+                headquarters: "Mumbai",
+                symbol: "RELIANCE",
+                ceo: "Mukesh Ambani",
+                business: "Energy, petrochemicals, telecom and retail",
+                description:
+                    "Reliance Industries is one of India's largest diversified business groups with operations spanning energy, petrochemicals, retail and digital telecommunications.",
+                website: "https://www.ril.com/"
+            },
+
+            {
+                name: "Tata Consultancy Services",
+                short: "TCS",
+                sector: "IT",
+                founded: "1968",
+                headquarters: "Mumbai",
+                symbol: "TCS",
+                ceo: "K. Krithivasan",
+                business: "IT services and consulting",
+                description:
+                    "TCS is a global information technology services and consulting company and one of India's largest technology companies.",
+                website: "https://www.tcs.com/"
+            },
+
+            {
+                name: "Infosys",
+                short: "I",
+                sector: "IT",
+                founded: "1981",
+                headquarters: "Bengaluru",
+                symbol: "INFY",
+                ceo: "Salil Parekh",
+                business: "IT services and consulting",
+                description:
+                    "Infosys provides digital services, consulting and technology solutions to businesses around the world.",
+                website: "https://www.infosys.com/"
+            },
+
+            {
+                name: "HCLTech",
+                short: "HCL",
+                sector: "IT",
+                founded: "1976",
+                headquarters: "Noida",
+                symbol: "HCLTECH",
+                ceo: "C. Vijayakumar",
+                business: "IT services and engineering",
+                description:
+                    "HCLTech is a global technology company providing IT services, engineering and digital transformation solutions.",
+                website: "https://www.hcltech.com/"
+            },
+
+            {
+                name: "HDFC Bank",
+                short: "HDFC",
+                sector: "Banking",
+                founded: "1994",
+                headquarters: "Mumbai",
+                symbol: "HDFCBANK",
+                ceo: "Sashidhar Jagdishan",
+                business: "Banking and financial services",
+                description:
+                    "HDFC Bank is one of India's largest private-sector banks, offering retail and corporate banking and financial services.",
+                website: "https://www.hdfcbank.com/"
+            },
+
+            {
+                name: "ICICI Bank",
+                short: "ICICI",
+                sector: "Banking",
+                founded: "1994",
+                headquarters: "Mumbai",
+                symbol: "ICICIBANK",
+                ceo: "Sandeep Bakhshi",
+                business: "Banking and financial services",
+                description:
+                    "ICICI Bank is a major Indian private-sector bank providing banking, lending, investment and financial services.",
+                website: "https://www.icicibank.com/"
+            },
+
+            {
+                name: "State Bank of India",
+                short: "SBI",
+                sector: "Banking",
+                founded: "1806",
+                headquarters: "Mumbai",
+                symbol: "SBIN",
+                ceo: "Challa Sreenivasulu Setty",
+                business: "Banking and financial services",
+                description:
+                    "SBI is India's largest public-sector banking institution with a nationwide presence and extensive financial services operations.",
+                website: "https://sbi.co.in/"
+            },
+
+            {
+                name: "Bharti Airtel",
+                short: "A",
+                sector: "Telecom",
+                founded: "1995",
+                headquarters: "New Delhi",
+                symbol: "BHARTIARTL",
+                ceo: "Gopal Vittal",
+                business: "Telecommunications and digital services",
+                description:
+                    "Bharti Airtel is a leading telecommunications company providing mobile, broadband and digital services.",
+                website: "https://www.airtel.in/"
+            },
+
+            {
+                name: "Tata Motors",
+                short: "TM",
+                sector: "Auto",
+                founded: "1945",
+                headquarters: "Mumbai",
+                symbol: "TATAMOTORS",
+                ceo: "Shailesh Chandra",
+                business: "Automobiles and commercial vehicles",
+                description:
+                    "Tata Motors is a major automobile manufacturer with businesses across passenger vehicles, commercial vehicles and electric mobility.",
+                website: "https://www.tatamotors.com/"
+            },
+
+            {
+                name: "Mahindra & Mahindra",
+                short: "M&M",
+                sector: "Auto",
+                founded: "1945",
+                headquarters: "Mumbai",
+                symbol: "M&M",
+                ceo: "Anish Shah",
+                business: "Automobiles, tractors and mobility",
+                description:
+                    "Mahindra & Mahindra operates across automobiles, farm equipment, mobility and related businesses.",
+                website: "https://www.mahindra.com/"
+            },
+
+            {
+                name: "Maruti Suzuki India",
+                short: "MS",
+                sector: "Auto",
+                founded: "1981",
+                headquarters: "New Delhi",
+                symbol: "MARUTI",
+                ceo: "Hisashi Takeuchi",
+                business: "Passenger automobiles",
+                description:
+                    "Maruti Suzuki is one of India's largest passenger vehicle manufacturers.",
+                website: "https://www.marutisuzuki.com/"
+            },
+
+            {
+                name: "ITC Limited",
+                short: "ITC",
+                sector: "FMCG",
+                founded: "1910",
+                headquarters: "Kolkata",
+                symbol: "ITC",
+                ceo: "Sanjiv Rangrass",
+                business: "FMCG, hotels, paperboards and agribusiness",
+                description:
+                    "ITC is a diversified Indian company with businesses across FMCG, hotels, paperboards, packaging and agribusiness.",
+                website: "https://www.itcportal.com/"
+            },
+
+            {
+                name: "Hindustan Unilever",
+                short: "HUL",
+                sector: "FMCG",
+                founded: "1933",
+                headquarters: "Mumbai",
+                symbol: "HINDUNILVR",
+                ceo: "Priya Nair",
+                business: "Consumer goods",
+                description:
+                    "Hindustan Unilever is a major consumer goods company with a large portfolio of household and personal care products.",
+                website: "https://www.hul.co.in/"
+            },
+
+            {
+                name: "Sun Pharmaceutical",
+                short: "SUN",
+                sector: "Pharma",
+                founded: "1983",
+                headquarters: "Mumbai",
+                symbol: "SUNPHARMA",
+                ceo: "Dilip Shanghvi",
+                business: "Pharmaceuticals",
+                description:
+                    "Sun Pharma is one of India's major pharmaceutical companies with a global presence across multiple therapeutic areas.",
+                website: "https://www.sunpharma.com/"
+            },
+
+            {
+                name: "Larsen & Toubro",
+                short: "L&T",
+                sector: "Infrastructure",
+                founded: "1938",
+                headquarters: "Mumbai",
+                symbol: "LT",
+                ceo: "S. N. Subrahmanyan",
+                business: "Engineering, construction and infrastructure",
+                description:
+                    "L&T is a major Indian engineering and construction company involved in infrastructure, technology and manufacturing.",
+                website: "https://www.larsentoubro.com/"
+            },
+
+            {
+                name: "Tata Steel",
+                short: "TS",
+                sector: "Steel",
+                founded: "1907",
+                headquarters: "Mumbai",
+                symbol: "TATASTEEL",
+                ceo: "T. V. Narendran",
+                business: "Steel manufacturing",
+                description:
+                    "Tata Steel is a major steel producer with operations in India and international markets.",
+                website: "https://www.tatasteel.com/"
+            },
+
+            {
+                name: "JSW Steel",
+                short: "JSW",
+                sector: "Steel",
+                founded: "1982",
+                headquarters: "Mumbai",
+                symbol: "JSWSTEEL",
+                ceo: "Jayant Acharya",
+                business: "Steel and metals",
+                description:
+                    "JSW Steel is one of India's major steel producers with integrated manufacturing operations.",
+                website: "https://www.jswsteel.in/"
+            },
+
+            {
+                name: "Titan Company",
+                short: "T",
+                sector: "Consumer",
+                founded: "1984",
+                headquarters: "Bengaluru",
+                symbol: "TITAN",
+                ceo: "C. K. Venkataraman",
+                business: "Jewellery, watches and lifestyle products",
+                description:
+                    "Titan is a major Indian consumer company operating across jewellery, watches, eyewear and lifestyle products.",
+                website: "https://www.titancompany.in/"
+            }
+
+        ];
+
+
+        let selectedSector = "All";
+
+
+        // ================= DISPLAY COMPANIES =================
+
+        function displayCompanies() {
+
+            const grid = document.getElementById("companyGrid");
+
+            const searchText =
+                document.getElementById("search").value.toLowerCase();
+
+            const filtered = companies.filter(company => {
+
+                const matchesSector =
+                    selectedSector === "All" ||
+                    company.sector === selectedSector;
+
+                const matchesSearch =
+                    company.name.toLowerCase().includes(searchText) ||
+                    company.sector.toLowerCase().includes(searchText) ||
+                    company.business.toLowerCase().includes(searchText);
+
+                return matchesSector && matchesSearch;
+            });
+
+
+            grid.innerHTML = "";
+
+
+            filtered.forEach((company, index) => {
+
+                const card = document.createElement("div");
+
+                card.className = "company-card";
+
+                card.innerHTML = `
+
+                    <div class="company-top">
+
+                        <div class="company-logo">
+                            ${company.short}
+                        </div>
+
+                        <div class="rank">
+                            #${index + 1}
+                        </div>
+
+                    </div>
+
+                    <h3>${company.name}</h3>
+
+                    <span class="sector">
+                        ${company.sector}
+                    </span>
+
+                    <p class="description">
+                        ${company.description}
+                    </p>
+
+                    <div class="details">
+
+                        <div class="detail-row">
+                            <span>Founded</span>
+                            <span>${company.founded}</span>
+                        </div>
+
+                        <div class="detail-row">
+                            <span>Headquarters</span>
+                            <span>${company.headquarters}</span>
+                        </div>
+
+                        <div class="detail-row">
+                            <span>Stock Symbol</span>
+                            <span>${company.symbol}</span>
+                        </div>
+
+                    </div>
+
+                    <button
+                        class="view-btn"
+                        onclick="openModal('${company.symbol}')"
+                    >
+                        View Company
+                    </button>
+
+                `;
+
+                grid.appendChild(card);
+
+            });
+
+
+            document.getElementById("resultCount").textContent =
+                `Showing ${filtered.length} companies`;
+
+        }
+
+
+        // ================= FILTER =================
+
+        document.querySelectorAll(".filter-btn").forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                document
+                    .querySelectorAll(".filter-btn")
+                    .forEach(btn => btn.classList.remove("active"));
+
+                button.classList.add("active");
+
+                selectedSector =
+                    button.getAttribute("data-sector");
+
+                displayCompanies();
+
+            });
+
+        });
+
+
+        // ================= SEARCH =================
+
+        document
+            .getElementById("search")
+            .addEventListener("input", displayCompanies);
+
+
+        // ================= MODAL =================
+
+        function openModal(symbol) {
+
+            const company =
+                companies.find(c => c.symbol === symbol);
+
+            if (!company) return;
+
+
+            document.getElementById("modalContent").innerHTML = `
+
+                <div class="modal-header">
+
+                    <div class="modal-logo">
+                        ${company.short}
+                    </div>
+
+                    <div>
+                        <h2>${company.name}</h2>
+                        <p>${company.sector}</p>
+                    </div>
+
+                </div>
+
+
+                <div class="info-grid">
+
+                    <div class="info-box">
+                        <small>Founded</small>
+                        <strong>${company.founded}</strong>
+                    </div>
+
+                    <div class="info-box">
+                        <small>Headquarters</small>
+                        <strong>${company.headquarters}</strong>
+                    </div>
+
+                    <div class="info-box">
+                        <small>Stock Symbol</small>
+                        <strong>${company.symbol}</strong>
+                    </div>
+
+                    <div class="info-box">
+                        <small>Leadership</small>
+                        <strong>${company.ceo}</strong>
+                    </div>
+
+                </div>
+
+
+                <h3 style="margin-bottom:10px;">
+                    Business
+                </h3>
+
+                <p class="modal-description">
+                    ${company.business}
+                </p>
+
+
+                <h3 style="margin-bottom:10px;">
+                    About the Company
+                </h3>
+
+                <p class="modal-description">
+                    ${company.description}
+                </p>
+
+
+                <a
+                    class="website"
+                    href="${company.website}"
+                    target="_blank"
+                >
+                    Visit Official Website →
+                </a>
+
+            `;
+
+
+            document
+                .getElementById("modal")
+                .classList.add("active");
+
+        }
+
+
+        function closeModal() {
+
+            document
+                .getElementById("modal")
+                .classList.remove("active");
+
+        }
+
+
+        // Close modal by clicking outside
+
+        document
+            .getElementById("modal")
+            .addEventListener("click", function(event) {
+
+                if (event.target === this) {
+                    closeModal();
+                }
+
+            });
+
+
+        // Initial display
+
+        displayCompanies();
+
+    </script>
+
+</body>
+</html>
+```
