@@ -1,12 +1,10 @@
+// DOM -> Document Object Model
 import { EventEmitter } from "events";
 
- class DomClass extends EventEmitter {
-    addEventListener (eventName , callback){
-        this.on(eventName, callback);
+const button = new EventEmitter();
 
-    }
-    removeEventListener( eventName, callback){
-        this.off( eventName, callback);
-    }
+button.on("click", () => {
+  console.log("Button clicked");
+});
 
- }
+button.emit("click");

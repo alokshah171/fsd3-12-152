@@ -1,0 +1,121 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Laptop Store</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        header {
+            background-color: #111;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        nav {
+            background-color: #333;
+            text-align: center;
+            padding: 12px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 20px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            padding: 40px;
+            flex-wrap: wrap;
+        }
+
+        .laptop {
+            background-color: white;
+            width: 280px;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px gray;
+        }
+
+        .laptop img {
+            width: 250px;
+            height: 170px;
+            object-fit: contain;
+        }
+
+        .price {
+            color: green;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>💻 Laptop Store</h1>
+        <p>Find Your Perfect Laptop</p>
+    </header>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Laptops</a>
+        <a href="#">Offers</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <div class="container">
+
+        <div class="laptop">
+            <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853">
+            <h2>HP Laptop</h2>
+            <p>Intel Core i5 | 8GB RAM | 512GB SSD</p>
+            <p class="price">₹55,999</p>
+            <button>Buy Now</button>
+        </div>
+
+        <div class="laptop">
+            <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8">
+            <h2>MacBook</h2>
+            <p>Apple M2 | 8GB RAM | 256GB SSD</p>
+            <p class="price">₹89,999</p>
+            <button>Buy Now</button>
+        </div>
+
+        <div class="laptop">
+            <img src="https://images.unsplash.com/photo-1603302576837-37561b2e2302">
+            <h2>Gaming Laptop</h2>
+            <p>Core i7 | 16GB RAM | 1TB SSD</p>
+            <p class="price">₹99,999</p>
+            <button>Buy Now</button>
+        </div>
+
+    </div>
+
+</body>
+</html>
+```

@@ -1,20 +1,14 @@
 [
   {
-    "id": 2,
-    "name": "watch",
-    "price": 23,
-    "qty": 23
+    "id": 101,
+    "name": "Mobile",
+    "price": 25000,
+    "qty": 6
   },
   {
-    "id": 3,
-    "name": "mobile",
-    "price": 12900,
-    "qty": 15
-  },
-  {
-    "id": 4,
-    "name": "shoes",
-    "price": 5900,
-    "qty": 1234
+    "id": 105,
+    "name": "HP-Laptop",
+    "price": 95000,
+    "qty": 1
   }
 ]

@@ -1,0 +1,249 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Product Enquiry</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 24px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .heading {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .heading h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .heading p {
+            color: #666;
+        }
+
+        .contact-box {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 40px;
+        }
+
+        .info {
+            background: #111827;
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        .info h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .info p {
+            margin: 18px 0;
+            line-height: 1.6;
+            color: #d1d5db;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #111827;
+        }
+
+        textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        button {
+            background: #111827;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #374151;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        @media (max-width: 700px) {
+            .contact-box {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav a {
+                margin: 0 8px;
+            }
+
+            .container {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>ProductHub</h1>
+
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Products</a>
+            <a href="#">Contact</a>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <div class="heading">
+            <h2>Contact Us</h2>
+            <p>Have a question about our products? Send us an enquiry.</p>
+        </div>
+
+        <div class="contact-box">
+
+            <div class="info">
+                <h3>Let's Talk</h3>
+
+                <p>
+                    📦 Interested in one of our products?
+                    Fill out the enquiry form and our team will get back to you.
+                </p>
+
+                <p>📧 Email: support@producthub.com</p>
+
+                <p>📞 Phone: +91 98765 43210</p>
+
+                <p>📍 Location: New Delhi, India</p>
+            </div>
+
+            <form>
+
+                <div>
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name"
+                           placeholder="Enter your name" required>
+                </div>
+
+                <div>
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email"
+                           placeholder="Enter your email" required>
+                </div>
+
+                <div>
+                    <label for="product">Product</label>
+                    <select id="product" required>
+                        <option value="">Select a product</option>
+                        <option>Laptop</option>
+                        <option>Smartphone</option>
+                        <option>Tablet</option>
+                        <option>Smart Watch</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="quantity">Quantity</label>
+                    <input type="number" id="quantity"
+                           min="1" placeholder="Enter quantity">
+                </div>
+
+                <div>
+                    <label for="message">Your Enquiry</label>
+                    <textarea id="message"
+                              placeholder="Tell us what you would like to know..."></textarea>
+                </div>
+
+                <button type="submit">Send Enquiry</button>
+
+            </form>
+
+        </div>
+    </div>
+
+    <footer>
+        © 2026 ProductHub. All rights reserved.
+    </footer>
+
+</body>
+</html>
+```

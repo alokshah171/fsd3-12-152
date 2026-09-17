@@ -1,72 +1,31 @@
-/*import {EventEmitter} from "node:events";
-const login=(name)=>{
-    console.log(`${name} logged in`);
-
-};
-const start =()=> {
-    console.log("system start");
-};
-const working =(name)=>{
-    console.log(`${name} add items to cart`);
-};
-const checkout =(name)=>{
-    console.log(`${name} logged out`);
-};
-const task =new EventEmitter();
-task.on("greetings",login);
-task.emit("greetings","ALOK KUMAR");*/
-// orderSystem.mjs
 import { EventEmitter } from "node:events";
 
-class OrderSystem extends EventEmitter {
-  placeOrder(order) {
-    console.log(`\n📦 Order received: #${order.id} for ${order.customerName}`);
+const login = (name) => {
+  console.log(`${name} logged in`);
+};
 
-    // Simulate saving to database
-    console.log("Saving order to database...");
+const start = () => {
+  console.log("System starts");
+};
+const working = (name) => {
+  console.log(`${name} add items to cart`);
+};
+const checkout = (name) => {
+  console.log(`${name} logged out`);
+};
 
-    // Emit event — everything below reacts independently
-    this.emit("orderPlaced", order);
-  }
-}
+const task = new EventEmitter();
+task.once("greet", start);
+task.on("greet", login);
+task.on("greet", working);
+task.on("greet", checkout);
 
-const orderSystem = new OrderSystem();
-
-// --- Listener 1: Email service ---
-orderSystem.on("orderPlaced", (order) => {
-  console.log(`📧 Sending confirmation email to ${order.email}...`);
+task.once("exit", () => {
+  console.log("System shutting down");
 });
 
-// --- Listener 2: Inventory service ---
-orderSystem.on("orderPlaced", (order) => {
-  order.items.forEach((item) => {
-    console.log(`📉 Reducing stock for "${item.name}" by ${item.qty}`);
-  });
-});
-
-// --- Listener 3: Shipping service ---
-orderSystem.on("orderPlaced", (order) => {
-  console.log(`🚚 Creating shipping label for order #${order.id}`);
-});
-
-// --- Listener 4: Analytics/logging ---
-orderSystem.on("orderPlaced", (order) => {
-  console.log(`📊 Logging order #${order.id} — total: ₹${order.total}`);
-});
-
-// --- Error handling ---
-orderSystem.on("error", (err) => {
-  console.error("❌ Order system error:", err.message);
-});
-
-// --- Simulate placing an order ---
-orderSystem.placeOrder({
-  id: "ORD1001",
-  customerName: "Dhanesh Kumar",
-  email: "dhanesh@example.com",
-  items: [
-    { name: "Wireless Mouse", qty: 1 },
-    { name: "Mechanical Keyboard", qty: 1 },
-  ],
-  total: 2499,
-});
+task.emit("greet", "Mayank Bansal");
+task.emit("greet", "Mudit Lohani");
+task.off("greet", working);
+task.emit("greet", "Manya Goyal");
+task.emit("exit", "Manager");

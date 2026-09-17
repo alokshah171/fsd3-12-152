@@ -2,8 +2,6 @@
 // return its in word
 // 0 - One
 //5 - Five
-//html,css(bookstrap),tailwind,event
-//backen nodejs,springboot,past api, 
 
 const toWords = (digit)=>{
     const words = ["Zero","One","Two","Three","Four"

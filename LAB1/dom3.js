@@ -1,11 +1,12 @@
 import { EventEmitter } from "events";
-  const button = new EventEmitter();
-  button.on("click", () => {
-    console.log( "task 1");
-  })
 
-   button.on ("click" , () => {
-    console.log( "Task 2");
+const button = new EventEmitter();
 
-   })
-    button.emit("click")
+button.on("click", (uname) => {
+  console.log(`button clicked by ${uname}`);
+});
+
+button.emit("click", "Raju");
+button.emit("click", "Kaju");
+button.emit("click", "Rani ");
+button.emit("click");
