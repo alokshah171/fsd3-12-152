@@ -6,5 +6,4 @@ const button = new EventEmitter();
 button.on("click", () => {
   console.log("Button clicked");
 });
-
 button.emit("click");
