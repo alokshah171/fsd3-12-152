@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - TechStore</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #222;
+        }
+
+        header {
+            background-color: #111827;
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            color: #38bdf8;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+        }
+
+        nav a:hover {
+            color: #38bdf8;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 50px 20px;
+            background: #e0f2fe;
+        }
+
+        .hero h2 {
+            font-size: 35px;
+            margin-bottom: 10px;
+        }
+
+        .products {
+            padding: 40px 8%;
+        }
+
+        .products h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .product-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .product {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .product img {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 15px;
+        }
+
+        .product h3 {
+            margin-bottom: 10px;
+        }
+
+        .price {
+            color: #0284c7;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 10px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #0284c7;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #0369a1;
+        }
+
+        footer {
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .product-container {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>TechStore</h1>
+
+        <nav>
+            <a href="product.html">Products</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>Our Products</h2>
+        <p>Discover the latest technology at affordable prices.</p>
+    </section>
+
+    <section class="products">
+
+        <h2>Featured Products</h2>
+
+        <div class="product-container">
+
+            <div class="product">
+                <img src="https://via.placeholder.com/300x200?text=Laptop" alt="Laptop">
+                <h3>Gaming Laptop</h3>
+                <p>Powerful laptop for gaming and productivity.</p>
+                <div class="price">₹65,999</div>
+                <a href="#" class="btn">Buy Now</a>
+            </div>
+
+            <div class="product">
+                <img src="https://via.placeholder.com/300x200?text=Headphones" alt="Headphones">
+                <h3>Wireless Headphones</h3>
+                <p>Enjoy high-quality sound with wireless freedom.</p>
+                <div class="price">₹2,499</div>
+                <a href="#" class="btn">Buy Now</a>
+            </div>
+
+            <div class="product">
+                <img src="https://via.placeholder.com/300x200?text=Smartphone" alt="Smartphone">
+                <h3>Smartphone</h3>
+                <p>Fast performance with a beautiful display.</p>
+                <div class="price">₹24,999</div>
+                <a href="#" class="btn">Buy Now</a>
+            </div>
+
+            <div class="product">
+                <img src="https://via.placeholder.com/300x200?text=Keyboard" alt="Keyboard">
+                <h3>Mechanical Keyboard</h3>
+                <p>Responsive keys designed for gamers.</p>
+                <div class="price">₹3,499</div>
+                <a href="#" class="btn">Buy Now</a>
+            </div>
+
+            <div class="product">
+                <img src="https://via.placeholder.com/300x200?text=Mouse" alt="Mouse">
+                <h3>Gaming Mouse</h3>
+                <p>Precision tracking with customizable buttons.</p>
+                <div class="price">₹1,499</div>
+                <a href="#" class="btn">Buy Now</a>
+            </div>
+
+            <div class="product">
+                <img src="https://via.placeholder.com/300x200?text=Smartwatch" alt="Smartwatch">
+                <h3>Smartwatch</h3>
+                <p>Track your fitness and stay connected.</p>
+                <div class="price">₹4,999</div>
+                <a href="#" class="btn">Buy Now</a>
+            </div>
+
+        </div>
+
+    </section>
+
+    <footer>
+        <p>© 2026 TechStore. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
