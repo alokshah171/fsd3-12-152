@@ -1,95 +1,71 @@
-# Express.js Setup
+# EXPRESS
 
-## 1. Create Project Folders
+Fast, unopinionated, minimalist web framework for Node.js
 
-Create two folders:
+## STEPS
 
-```text
-project
-  backend
-  frontend
+1. create project folder(lab5)
+2. create two folder and reach to backend by
 ```
-
-## 2. Setup Backend
-
-Open the backend folder:
-
-```bash
+cd ..
+cd lab
 cd backend
+    ```
+4. type `npm init -y`
+5. install nodemon  `npm i nodemon -D`
+6. install express `npm i express`
+7.  update backend/package.json
+    - change type ` type: "module"
+    - chnage script
+
+    ```
+    script :{
+        "start": "node app.js",
+        "dev":"nodemon prg1.js"
+
+    }
+    ```
+8. add "lab5/backend/node_modules" in gitignore
+9. create "prg1.js" in backend
+10. write the script below to start express server
+
+        ```
+        import express from 'express'
+        const app = express()
+
+        app.get('/', (req, res) => {
+            res.send('<h1> Hello Client </h1>')
+        }   )
+
+        app.listen(4444, () => {
+            console.log('Server is running on http://localhost:4444')
+        })
+```
+## Static Files
+
+Express can serve static HTML, CSS, JS, images, etc. using the built-in `express.static()` middleware.
+
+```js
+app.use(express.static("public"));
 ```
 
-Initialize Node.js:
+Here, `public` is the folder containing static files.
 
-```bash
-npm init -y
+---
+
+## Middleware
+
+Middleware is a function that executes **between the request and response**. It is used to perform tasks before the final route execution.
+
+```js
+app.use((req, res, next) => {
+    console.log("Middleware executed");
+    next();
+});
 ```
 
-Install Nodemon:
+- `app.use()` → used to apply middleware.
+- `next()` → passes control to the next middleware/route.
+- `express.static()` → serves static files.
 
-```bash
-npm i nodemon -D
-```
-
-Install Express:
-
-```bash
-npm i express
-```
-
-## 3. Configure package.json
-
-Add:
-
-```json
-"type": "module"
-```
-
-Change the scripts:
-
-```json
-"scripts": {
-  "start": "node app.js",
-  "dev": "nodemon app.js"
-}
-```
-
-## 4. Create app.js
-## 5. Run the Server
-
-For development:
-
-```bash
-npm run dev
-```
-
-For normal mode:
-
-```bash
-npm start
-```
-
-## 6. Open in Browser
-
-Open:
-
-```text
-http://localhost:3000
-```
-
-You should see:
-
-```text
-Hello World
-```
-
-## What We Learned
-
-We learned how to:
-
-1. Create a Node.js project
-2. Install Express
-3. Install Nodemon
-4. Create an Express server
-5. Create a GET route
-6. Run the server on a port
-7. Open the server in a browser
+**Flow:** `Request → Middleware → Route → Response`'

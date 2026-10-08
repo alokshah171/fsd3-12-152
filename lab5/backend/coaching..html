@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex Academy | Premier Online Coaching & Mentorship</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef6ff',
+                            100: '#d9eaff',
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                            700: '#1e40af',
+                            800: '#1e3a8a',
+                            900: '#0f172a'
+                        },
+                        accent: {
+                            500: '#f59e0b',
+                            600: '#d97706'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .page-view {
+            display: none;
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity 0.25s ease-out, transform 0.25s ease-out;
+        }
+        .page-view.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .nav-link.active-nav {
+            color: #2563eb;
+            font-weight: 700;
+            position: relative;
+        }
+        .nav-link.active-nav::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #2563eb;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Top Announcement Bar -->
+    <aside aria-label="Announcement" class="bg-gradient-to-r from-brand-900 via-brand-800 to-indigo-950 text-white text-xs sm:text-sm py-2 px-4 text-center font-medium">
+        <span class="inline-flex items-center gap-2">
+            <span class="bg-accent-500 text-slate-900 text-xs px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">New</span>
+            <span>Fall 2026 Batches Open! Claim a <strong>1-on-1 Free Assessment Class</strong> today.</span>
+            <button onclick="navigateTo('contact')" class="underline decoration-accent-500 hover:text-accent-500 transition-colors ml-1 font-semibold">Reserve Slot &rarr;</button>
+        </span>
+    </aside>
+
+    <!-- Sticky Main Navigation -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
+                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-brand-600 to-indigo-700 flex items-center justify-center text-white shadow-md shadow-brand-500/30">
+                        <i class="fa-solid fa-graduation-cap text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-black tracking-tight text-slate-900 block leading-tight">Apex<span class="text-brand-600">Academy</span></span>
+                        <span class="text-[10px] tracking-widest text-slate-400 uppercase font-semibold">Online Coaching & Tutoring</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-600">
+                    <button type="button" class="nav-link py-1 hover:text-brand-600 transition-colors cursor-pointer" data-target="home" onclick="navigateTo('home')">Home</button>
+                    <button type="button" class="nav-link py-1 hover:text-brand-600 transition-colors cursor-pointer" data-target="courses" onclick="navigateTo('courses')">Courses</button>
+                    <button type="button" class="nav-link py-1 hover:text-brand-600 transition-colors cursor-pointer" data-target="about" onclick="navigateTo('about')">About Us</button>
+                    <button type="button" class="nav-link py-1 hover:text-brand-600 transition-colors cursor-pointer" data-target="pricing" onclick="navigateTo('pricing')">Pricing & Plans</button>
+                    <button type="button" class="nav-link py-1 hover:text-brand-600 transition-colors cursor-pointer" data-target="contact" onclick="navigateTo('contact')">Contact & Trial</button>
+                </nav>
+
+                <!-- Desktop CTA Buttons -->
+                <div class="hidden md:flex items-center gap-4">
+                    <button onclick="navigateTo('courses')" class="text-sm font-semibold text-slate-700 hover:text-brand-600 transition-colors">
+                        Browse Catalog
+                    </button>
+                    <button onclick="navigateTo('contact')" class="inline-flex items-center gap-2 bg-brand-600 hover:bg-brand-700 active:scale-95 text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow-md shadow-brand-600/25 transition-all">
+                        <i class="fa-solid fa-calendar-check text-xs"></i>
+                        <span>Book Free Demo</span>
+                    </button>
+                </div>
+
+                <!-- Mobile Hamburger Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" type="button" class="text-slate-700 hover:text-brand-600 focus:outline-none p-2 rounded-lg" aria-label="Toggle Menu">
+                        <i class="fa-solid fa-bars text-xl" id="menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Navigation -->
+        <div id="mobile-nav" class="hidden md:hidden border-t border-slate-100 bg-white/98 px-6 pt-3 pb-6 space-y-3 shadow-xl">
+            <button class="block w-full text-left py-2.5 px-3 rounded-lg text-base font-semibold text-slate-700 hover:bg-brand-50 hover:text-brand-600 transition-all" onclick="navigateTo('home')"><i class="fa-solid fa-house w-6 text-slate-400"></i> Home</button>
+            <button class="block w-full text-left py-2.5 px-3 rounded-lg text-base font-semibold text-slate-700 hover:bg-brand-50 hover:text-brand-600 transition-all" onclick="navigateTo('courses')"><i class="fa-solid fa-book-open w-6 text-slate-400"></i> Courses</button>
+            <button class="block w-full text-left py-2.5 px-3 rounded-lg text-base font-semibold text-slate-700 hover:bg-brand-50 hover:text-brand-600 transition-all" onclick="navigateTo('about')"><i class="fa-solid fa-users w-6 text-slate-400"></i> About Us</button>
+            <button class="block w-full text-left py-2.5 px-3 rounded-lg text-base font-semibold text-slate-700 hover:bg-brand-50 hover:text-brand-600 transition-all" onclick="navigateTo('pricing')"><i class="fa-solid fa-tags w-6 text-slate-400"></i> Pricing & Plans</button>
+            <button class="block w-full text-left py-2.5 px-3 rounded-lg text-base font-semibold text-slate-700 hover:bg-brand-50 hover:text-brand-600 transition-all" onclick="navigateTo('contact')"><i class="fa-solid fa-phone w-6 text-slate-400"></i> Contact & Trial</button>
+            <div class="pt-2 border-t border-slate-100">
+                <button onclick="navigateTo('contact')" class="w-full text-center bg-brand-600 text-white font-semibold py-3 rounded-xl shadow-md">Book Free Demo Session</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container for Dynamic Routing -->
+    <main class="flex-grow">
+        
+        <!-- ========================================== -->
+        <!-- ========================================== -->
+        <section id="page-home" class="page-view active">
+            <!-- Hero Section -->
+            <section class="relative overflow-hidden bg-gradient-to-b from-brand-50/60 via-white to-slate-50 py-16 lg:py-24 border-b border-slate-200">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid lg:grid-cols-12 gap-12 items-center">
+                        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-100/70 border border-blue-200 text-brand-700 text-xs sm:text-sm font-semibold">
+                                <i class="fa-solid fa-award text-brand-600"></i>
+                                <span>Rated #1 Online Tutoring Platform 2026</span>
+                            </div>
+                            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
+                                Master Every Subject with <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 via-indigo-600 to-blue-700">Top 1% Mentors</span>
+                            </h1>
+                            <p class="text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                                Personalized 1-on-1 and small-group live coaching for STEM, Coding, Advanced Test Prep, and Languages. Designed to turn academic struggle into undeniable confidence.
+                            </p>
+                            <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-2">
+                                <button onclick="navigateTo('contact')" class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-base shadow-lg shadow-brand-600/30 hover:-translate-y-0.5 transition-all">
+                                    <i class="fa-solid fa-calendar-check"></i>
+                                    <span>Book 1-on-1 Free Trial</span>
+                                </button>
+                                <button onclick="navigateTo('courses')" class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white border border-slate-300 hover:border-brand-500 hover:text-brand-600 text-slate-700 font-bold text-base shadow-sm transition-all">
+                                    <i class="fa-solid fa-compass"></i>
+                                    <span>Explore All Courses</span>
+                                </button>
+                            </div>
+                            <!-- Mini social proof -->
+                            <div class="pt-6 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-slate-500 border-t border-slate-200/80">
+                                <div class="flex items-center gap-2">
+                                    <div class="flex -space-x-2">
+                                        <div class="w-8 h-8 rounded-full bg-indigo-500 text-white font-bold text-xs flex items-center justify-center border-2 border-white">EK</div>
+                                        <div class="w-8 h-8 rounded-full bg-emerald-500 text-white font-bold text-xs flex items-center justify-center border-2 border-white">AP</div>
+                                        <div class="w-8 h-8 rounded-full bg-amber-500 text-white font-bold text-xs flex items-center justify-center border-2 border-white">SM</div>
+                                    </div>
+                                    <span class="font-semibold text-slate-700">12,500+ Active Students</span>
+                                </div>
+                                <div class="flex items-center gap-1.5 text-accent-500">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star-half-stroke"></i>
+                                    <span class="font-bold text-slate-700 ml-1">4.9 / 5.0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hero Interactive Card / Graphic -->
+                        <div class="lg:col-span-5 relative">
+                            <div class="relative mx-auto max-w-md bg-white rounded-3xl p-6 shadow-2xl border border-slate-100">
+                                <div class="absolute -top-3 -right-3 bg-emerald-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1.5 animate-pulse">
+                                    <span class="w-2 h-2 rounded-full bg-white"></span> Live Coaching Session
+                                </div>
+                                <div class="rounded-2xl overflow-hidden bg-slate-900 aspect-video relative flex items-center justify-center text-white mb-5 shadow-inner">
+                                    <div class="text-center p-4">
+                                        <i class="fa-solid fa-chalkboard-user text-4xl text-brand-500 mb-2"></i>
+                                        <h3 class="font-bold text-sm">Calculus & Advanced Physics</h3>
+                                        <p class="text-xs text-slate-400">Dr. Sarah Vance • Stanford Alum</p>
+                                    </div>
+                                    <div class="absolute bottom-3 left-3 bg-slate-800/80 backdrop-blur-md px-2.5 py-1 rounded-md text-[11px] font-mono flex items-center gap-1.5">
+                                        <i class="fa-solid fa-circle text-red-500 text-[8px] animate-ping"></i> REC 00:42:18
+                                    </div>
+                                </div>
+
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between text-xs font-semibold text-slate-500">
+                                        <span>Student Performance Boost</span>
+                                        <span class="text-brand-600 font-bold">+94% Mastery</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 rounded-full h-2.5">
+                                        <div class="bg-gradient-to-r from-brand-500 to-indigo-600 h-2.5 rounded-full" style="width: 92%"></div>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-3 pt-3">
+                                        <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 text-center">
+                                            <p class="text-xs text-slate-500 font-medium">Avg Grade Jump</p>
+                                            <p class="text-lg font-bold text-slate-800">+1.8 GPA</p>
+                                        </div>
+                                        <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 text-center">
+                                            <p class="text-xs text-slate-500 font-medium">Ivy / Top Admit</p>
+                                            <p class="text-lg font-bold text-brand-600">92% Rate</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stats Bar -->
+            <section class="bg-white border-b border-slate-200 py-10">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                        <div class="p-4">
+                            <div class="text-3xl sm:text-4xl font-extrabold text-brand-600 mb-1">98.4%</div>
+                            <div class="text-xs sm:text-sm font-semibold text-slate-600 uppercase tracking-wide">Exam Success Rate</div>
+                        </div>
+                        <div class="p-4">
+                            <div class="text-3xl sm:text-4xl font-extrabold text-brand-600 mb-1">350+</div>
+                            <div class="text-xs sm:text-sm font-semibold text-slate-600 uppercase tracking-wide">Certified PhD/MSc Tutors</div>
+                        </div>
+                        <div class="p-4">
+                            <div class="text-3xl sm:text-4xl font-extrabold text-brand-600 mb-1">24/7</div>
+                            <div class="text-xs sm:text-sm font-semibold text-slate-600 uppercase tracking-wide">Live Doubt Assistance</div>
+                        </div>
+                        <div class="p-4">
+                            <div class="text-3xl sm:text-4xl font-extrabold text-brand-600 mb-1">45+</div>
+                            <div class="text-xs sm:text-sm font-semibold text-slate-600 uppercase tracking-wide">Countries Represented</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Why Choose Apex Academy -->
+            <section class="py-16 sm:py-20 bg-slate-50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-2xl mx-auto mb-14">
+                        <h2 class="text-xs font-bold uppercase tracking-wider text-brand-600 mb-2">Our Methodology</h2>
+                        <h3 class="text-3xl sm:text-4xl font-bold text-slate-900">Why Modern Students Excel With Us</h3>
+                        <p class="text-slate-600 mt-3 text-sm sm:text-base">We combine deep human pedagogical empathy with real-time analytics to ensure no concept is left unclear.</p>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="bg-white p-7 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="w-12 h-12 rounded-xl bg-blue-100 text-brand-600 flex items-center justify-center text-xl mb-5">
+                                <i class="fa-solid fa-video"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-slate-900 mb-2">Interactive 1-on-1 Classes</h4>
+                            <p class="text-slate-600 text-sm leading-relaxed">Two-way video, collaborative digital whiteboard, and live code editors provide immediate real-time feedback.</p>
+                        </div>
+
+                        <div class="bg-white p-7 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl mb-5">
+                                <i class="fa-solid fa-microchip"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-slate-900 mb-2">Adaptive Learning Paths</h4>
+                            <p class="text-slate-600 text-sm leading-relaxed">Diagnostic benchmarks pinpoint knowledge gaps so study hours target exact weaknesses instead of busywork.</p>
+                        </div>
+
+                        <div class="bg-white p-7 rounded-2xl border border-slate-200/80 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="w-12 h-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl mb-5">
+                                <i class="fa-solid fa-comments-dollar"></i>
+                            </div>
+                            <h4 class="text-xl font-bold text-slate-900 mb-2">Continuous Doubt Clearing</h4>
+                            <p class="text-slate-600 text-sm leading-relaxed">Students can post questions via our student portal anytime and receive verified tutor walkthroughs in minutes.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials Section -->
+            <section class="py-16 sm:py-20 bg-white border-t border-slate-200">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center max-w-2xl mx-auto mb-12">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-600">Student Reviews</span>
+                        <h3 class="text-3xl font-bold text-slate-900 mt-1">Real Stories. Proven Score Improvements.</h3>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 relative">
+                            <div class="flex text-amber-400 mb-4 text-sm">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-slate-700 text-sm italic mb-6 leading-relaxed">"My daughter jumped from a 1180 to a 1530 SAT score in 3 months. Apex coaches break down complex concepts with remarkable patience."</p>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-brand-600 text-white font-bold flex items-center justify-center text-sm">RG</div>
+                                <div>
+                                    <h5 class="font-bold text-slate-900 text-sm">Rachel Green</h5>
+                                    <span class="text-xs text-slate-500">Parent of SAT Scholar (Class of '26)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 relative">
+                            <div class="flex text-amber-400 mb-4 text-sm">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-slate-700 text-sm italic mb-6 leading-relaxed">"The AP Calculus and Physics coaching made university engineering entry a breeze. Having 24/7 homework doubt solving saved my grades."</p>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-sm">DK</div>
+                                <div>
+                                    <h5 class="font-bold text-slate-900 text-sm">David Kim</h5>
+                                    <span class="text-xs text-slate-500">Admitted to MIT Engineering</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 relative">
+                            <div class="flex text-amber-400 mb-4 text-sm">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-slate-700 text-sm italic mb-6 leading-relaxed">"I went from zero coding knowledge to building full-stack web applications. Coach Marcus made JavaScript and Python actually fun to learn."</p>
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-purple-600 text-white font-bold flex items-center justify-center text-sm">ZT</div>
+                                <div>
+                                    <h5 class="font-bold text-slate-900 text-sm">Zoya Tariq</h5>
+                                    <span class="text-xs text-slate-500">High School Junior, CS Student</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick FAQ on Homepage -->
+            <section class="py-16 bg-slate-50 border-t border-slate-200">
+                <div class="max-w-4xl mx-auto px-4 sm:px-6">
+                    <h3 class="text-2xl sm:text-3xl font-bold text-center text-slate-900 mb-8">Frequently Asked Questions</h3>
+                    <div class="space-y-4">
+                        <div class="faq-item bg-white rounded-xl border border-slate-200 overflow-hidden">
+                            <button class="faq-toggle w-full px-6 py-4 text-left font-bold text-slate-800 flex justify-between items-center hover:bg-slate-50">
+                                <span>How does the 1-on-1 Free Trial lesson work?</span>
+                                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                            </button>
+                            <div class="faq-content hidden px-6 pb-4 text-sm text-slate-600">
+                                Your student meets 1-on-1 for 45 minutes with a verified expert tutor. The tutor evaluates current skill levels, identifies key hurdles, and produces a tailored study roadmap with zero obligation to continue.
+                            </div>
+                        </div>
+                        <div class="faq-item bg-white rounded-xl border border-slate-200 overflow-hidden">
+                            <button class="faq-toggle w-full px-6 py-4 text-left font-bold text-slate-800 flex justify-between items-center hover:bg-slate-50">
+                                <span>Can we switch tutors or reschedule sessions if needed?</span>
+                                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                            </button>
+                            <div class="faq-content hidden px-6 pb-4 text-sm text-slate-600">
+                                Yes, 100%. Our platform offers flexible rescheduling with a 4-hour advance notice, and our dedicated academic coordinator will match you with another tutor anytime you request a style change.
+                            </div>
+                        </div>
+                        <div class="faq-item bg-white rounded-xl border border-slate-200 overflow-hidden">
+                            <button class="faq-toggle w-full px-6 py-4 text-left font-bold text-slate-800 flex justify-between items-center hover:bg-slate-50">
+                                <span>What grades and curricula do you support?</span>
+                                <i class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                            </button>
+                            <div class="faq-content hidden px-6 pb-4 text-sm text-slate-600">
+                                We cater to Grade 6 to Grade 12 students, AP/IB curriculums, College freshmen, and standard competitive tests including SAT, ACT, and IELTS.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- ========================================== -->
+        <section id="page-courses" class="page-view">
+            <div class="bg-gradient-to-b from-brand-50/60 to-white py-12 border-b border-slate-200">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-600">Curriculum & Programs</span>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 mt-2">Explore Our Specialized Courses</h1>
+                    <p class="text-slate-600 max-w-2xl mx-auto mt-3 text-sm sm:text-base">Comprehensive, accredited coaching modules designed for school mastery, competitive exams, and technical career skills.</p>
+                    
+                    <!-- Course Filters -->
+                    <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mt-8" id="course-filter-container">
+                        <button onclick="filterCourses('all')" class="filter-btn active bg-brand-600 text-white px-5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all">All Subjects</button>
+                        <button onclick="filterCourses('stem')" class="filter-btn bg-white hover:bg-slate-100 text-slate-700 px-5 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-200 transition-all">Math & Science</button>
+                        <button onclick="filterCourses('coding')" class="filter-btn bg-white hover:bg-slate-100 text-slate-700 px-5 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-200 transition-all">Coding & AI</button>
+                        <button onclick="filterCourses('testprep')" class="filter-btn bg-white hover:bg-slate-100 text-slate-700 px-5 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-200 transition-all">SAT & Test Prep</button>
+                        <button onclick="filterCourses('languages')" class="filter-btn bg-white hover:bg-slate-100 text-slate-700 px-5 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-200 transition-all">Languages</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Grid -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8" id="courses-grid">
+                    
+                    <!-- Course 1 -->
+                    <div class="course-card stem bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col">
+                        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 h-32 p-5 text-white flex flex-col justify-between">
+                            <span class="bg-white/20 backdrop-blur-sm self-start text-[11px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">AP / IB Standard</span>
+                            <i class="fa-solid fa-square-root-variable text-3xl self-end opacity-80"></i>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900 mb-2">Advanced Calculus & Linear Algebra</h3>
+                                <p class="text-slate-600 text-xs sm:text-sm mb-4">Complete mastery of derivatives, integrals, matrices, vector spaces, and exam problem-solving techniques.</p>
+                                <div class="space-y-2 text-xs text-slate-500 mb-5 border-t border-slate-100 pt-3">
+                                    <div class="flex items-center gap-2"><i class="fa-regular fa-clock text-brand-600"></i> 12 Weeks • 36 Live Sessions</div>
+                                    <div class="flex items-center gap-2"><i class="fa-regular fa-user text-brand-600"></i> Lead: Dr. Sarah Vance (Stanford)</div>
+                                    <div class="flex items-center gap-2"><i class="fa-solid fa-award text-brand-600"></i> Certificate + Weekly Mock Exams</div>
+                                </div>
+                            </div>
+                            <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                                <div>
+                                    <span class="text-xs text-slate-400 block font-medium">Monthly Plan</span>
+                                    <span class="text-xl font-extrabold text-slate-900">$189</span>
+                                </div>
+                                <button onclick="selectCourseToEnroll('Advanced Calculus & Linear Algebra')" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-colors">Enroll / Demo</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course 2 -->
+                    <div class="course-card coding bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col">
+                        <div class="bg-gradient-to-r from-emerald-600 to-teal-700 h-32 p-5 text-white flex flex-col justify-between">
+                            <span class="bg-white/20 backdrop-blur-sm self-start text-[11px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">Tech & CS</span>
+                            <i class="fa-solid fa-laptop-code text-3xl self-end opacity-80"></i>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900 mb-2">Python, Data Structures & AI Fundamentals</h3>
+                                <p class="text-slate-600 text-xs sm:text-sm mb-4">From zero to building practical algorithms, mini machine-learning models, and competitive programming prep.</p>
+                                <div class="space-y-2 text-xs text-slate-500 mb-5 border-t border-slate-100 pt-3">
+                                    <div class="flex items-center gap-2"><i class="fa-regular fa-clock text-brand-600"></i> 16 Weeks • 48 Live Sessions</div>
+                                    <div class="flex items-center gap-2"><i class="fa-regular fa-user text-brand-600"></i> Lead: Marcus Thorne (Ex-Meta)</div>
+                                    <div class="flex items-center gap-2"><i class="fa-solid fa-code-branch text-brand-600"></i> 5 Real-world Portfolio Projects</div>
+                                </div>
+                            </div>
+                            <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                                <div>
+                                    <span class="text-xs text-slate-400 block font-medium">Monthly Plan</span>
+                                    <span class="text-xl font-extrabold text-slate-900">$210</span>
+                                </div>
+                                <button onclick="selectCourseToEnroll('Python & AI Fundamentals')" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-colors">Enroll / Demo</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course 3 -->
+                    <div class="course-card testprep bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col">
+                        <div class="bg-gradient-to-r from-amber-500 to-orange-600 h-32 p-5 text-white flex flex-col justify-between">
+                            <span class="bg-white/20 backdrop-blur-sm self-start text-[11px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">High Impact Score</span>
+                            <i class="fa-solid fa-bullseye text-3xl self-end opacity-80"></i>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900 mb-2">Digital SAT & ACT 1500+ Accelerator</h3>
+                                <p class="text-slate-600 text-xs sm:text-sm mb-4">Precision drills for Math Desmos shortcuts, Reading & Writing evidence inference, and timed simulated adaptive tests.</p>
+                                <div class="space-y-2 text-xs text-slate-500 mb-5 border-t border-slate-100 pt-3">
+                                    <div class="flex items-center gap-2"><i class="fa-regular fa-clock text-brand-600"></i> 10 Weeks • 30 Live Clinics</div>
+                                    <div class="flex items-center gap-2"><i class="fa-regular fa-user text-brand-600"></i> Lead: Elena Rostova (Perfect 1600 Scorer)</div>
+                                    <div class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-brand-600"></i> +200 Point Improvement Guarantee</div>
+                                </div>
+                            </div>
+                            <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                                <div>
+                                    <span class="text-xs text-slate-400 block font-medium">Monthly Plan</span>
+                                    <span class="text-xl font-extrabold text-slate-900">$249</span>
+                                </div>
+                                <button onclick="selectCourseToEnroll('Digital SAT & ACT 1500+ Accelerator')" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-colors">Enroll / Demo</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course 4 -->
+                    <div class="course-card stem bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col">
+                        <div class="bg-gradient-to-r from-violet-600 to-purple-800 h-32 p-5 text-white flex flex-col justify-between">
+                            <span class="bg-white/20 backdrop-blur-sm self-start text-[11px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">Science Lab</span>
+                            <i class="fa-solid fa-atom text-3xl self-end opacity-80"></i>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900 mb-2">AP Physics & Organic Chemistry</h3>
+                                <p class="text-slate-600 text-xs sm:text-sm mb-4">Mechanics, Electromagnetism, Molecular Reaction mechanisms made intuitive via 3D simulations.</p>
+                                <div class="space-y-2 text-xs text-slate-500 mb-5 border-t border-slate-100 pt-3">
+                                    <div class="flex items-center gap-2"><i class="fa-regular fa-clock text-brand-600"></i> 14 Weeks • 42 Live Sessions</div>
+                                    <div class="flex items-center gap-2"><i class="fa-regular fa-user text-brand-600"></i> Lead: Dr. Aris Thorne (Oxford)</div>
+                                    <div class="flex items-center gap-2"><i class="fa-solid fa-flask text-brand-600"></i> Virtual Interactive Experiments</div>
+                                </div>
+                            </div>
+                            <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                                <div>
+                                    <span class="text-xs text-slate-400 block font-medium">Monthly Plan</span>
+                                    <span class="text-xl font-extrabold text-slate-900">$195</span>
+                                </div>
+                                <button onclick="selectCourseToEnroll('AP Physics & Chemistry')" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-colors">Enroll / Demo</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course 5 -->
+                    <div class="course-card languages bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col">
+                        <div class="bg-gradient-to-r from-rose-500 to-pink-600 h-32 p-5 text-white flex flex-col justify-between">
+                            <span class="bg-white/20 backdrop-blur-sm self-start text-[11px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">Global Fluency</span>
+                            <i class="fa-solid fa-earth-americas text-3xl self-end opacity-80"></i>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900 mb-2">Spanish & French Conversational Immersion</h3>
+                                <p class="text-slate-600 text-xs sm:text-sm mb-4">Pronunciation refinement, native speaker conversation circles, and official DELE / DELF examination preparation.</p>
+                                <div class="space-y-2 text-xs text-slate-500 mb-5 border-t border-slate-100 pt-3">
+                                    <div class="flex items-center gap-2"><i class="fa-regular fa-clock text-brand-600"></i> 8 Weeks • 24 Live Sessions</div>
+                                    <div class="flex items-center gap-2"><i class="fa-regular fa-user text-brand-600"></i> Lead: Camille Dupont (Native Linguist)</div>
+                                    <div class="flex items-center gap-2"><i class="fa-solid fa-microphone text-brand-600"></i> Speech Correction Audio Labs</div>
+                                </div>
+                            </div>
+                            <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                                <div>
+                                    <span class="text-xs text-slate-400 block font-medium">Monthly Plan</span>
+                                    <span class="text-xl font-extrabold text-slate-900">$140</span>
+                                </div>
+                                <button onclick="selectCourseToEnroll('Spanish & French Immersion')" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-colors">Enroll / Demo</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course 6 -->
+                    <div class="course-card coding bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition-all flex flex-col">
+                        <div class="bg-gradient-to-r from-cyan-600 to-blue-800 h-32 p-5 text-white flex flex-col justify-between">
+                            <span class="bg-white/20 backdrop-blur-sm self-start text-[11px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">Full Stack</span>
+                            <i class="fa-solid fa-code text-3xl self-end opacity-80"></i>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900 mb-2">Modern Web Dev: HTML, Tailwind & React</h3>
+                                <p class="text-slate-600 text-xs sm:text-sm mb-4">Build interactive modern web applications from scratch with modern developer tooling and API integration.</p>
+                                <div class="space-y-2 text-xs text-slate-500 mb-5 border-t border-slate-100 pt-3">
+                                    <div class="flex items-center gap-2"><i class="fa-regular fa-clock text-brand-600"></i> 12 Weeks • 36 Live Sessions</div>
+                                    <div class="flex items-center gap-2"><i class="fa-regular fa-user text-brand-600"></i> Lead: Jason Bell (Senior Architect)</div>
+                                    <div class="flex items-center gap-2"><i class="fa-brands fa-github text-brand-600"></i> Live GitHub Deployment & Reviews</div>
+                                </div>
+                            </div>
+                            <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                                <div>
+                                    <span class="text-xs text-slate-400 block font-medium">Monthly Plan</span>
+                                    <span class="text-xl font-extrabold text-slate-900">$175</span>
+                                </div>
+                                <button onclick="selectCourseToEnroll('Modern Web Development')" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-colors">Enroll / Demo</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- ========================================== -->
+        <section id="page-about" class="page-view">
+            <!-- About Hero -->
+            <div class="bg-slate-900 text-white py-16 sm:py-20 relative overflow-hidden">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                    <span class="text-xs font-bold uppercase tracking-widest text-brand-500">About Apex Academy</span>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold mt-3 tracking-tight">Democratizing World-Class Mentorship</h1>
+                    <p class="text-slate-300 max-w-2xl mx-auto mt-4 text-sm sm:text-base leading-relaxed">
+                        Founded in 2021 by university professors and software architects, Apex Academy is committed to replacing impersonal lectures with active, empathy-first mentoring.
+                    </p>
+                </div>
+                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px]"></div>
+            </div>
+
+            <!-- Mission, Vision & Methodology -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-600">Core Mission</span>
+                        <h2 class="text-3xl font-extrabold text-slate-900">Education Built Around You, Not a Standardized Mold</h2>
+                        <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
+                            Traditional classrooms leave struggling students behind while limiting fast learners. Our proprietary diagnostic engine maps exactly where a student feels uncertain and assigns a hand-selected expert to unlock their true potential.
+                        </p>
+                        <div class="space-y-3 pt-2">
+                            <div class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center text-xs shrink-0 mt-0.5"><i class="fa-solid fa-check"></i></div>
+                                <p class="text-sm text-slate-700"><strong>Vetted Tutors:</strong> Less than 2.8% of educator applicants pass our rigorous subject and background evaluations.</p>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center text-xs shrink-0 mt-0.5"><i class="fa-solid fa-check"></i></div>
+                                <p class="text-sm text-slate-700"><strong>Data-Driven Feedback:</strong> Parents receive comprehensive weekly biometrics detailing homework clarity and quiz accuracy.</p>
+                            </div>
+                            <div class="flex items-start gap-3">
+                                <div class="w-6 h-6 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center text-xs shrink-0 mt-0.5"><i class="fa-solid fa-check"></i></div>
+                                <p class="text-sm text-slate-700"><strong>Holistic Mentorship:</strong> We coach study habits, exam stress reduction, and critical thinking alongside standard syllabi.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Methodology Graphic Card -->
+                    <div class="bg-gradient-to-br from-brand-50 to-indigo-50/50 p-8 rounded-3xl border border-brand-100 shadow-sm space-y-6">
+                        <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+                            <i class="fa-solid fa-compass-drafting text-brand-600"></i> The Apex 4-Stage Learning Cycle
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="bg-white p-4 rounded-xl shadow-xs border border-slate-100 flex items-center gap-4">
+                                <div class="w-9 h-9 rounded-lg bg-brand-600 text-white font-bold flex items-center justify-center text-sm">1</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm">Diagnostic Assessment</h4>
+                                    <p class="text-xs text-slate-500">Free 45-min diagnostic to evaluate exact cognitive strengths and baseline gaps.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-xs border border-slate-100 flex items-center gap-4">
+                                <div class="w-9 h-9 rounded-lg bg-brand-600 text-white font-bold flex items-center justify-center text-sm">2</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm">Targeted Curriculum Plan</h4>
+                                    <p class="text-xs text-slate-500">Custom modules mapped to school exam targets or specific university goals.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-xs border border-slate-100 flex items-center gap-4">
+                                <div class="w-9 h-9 rounded-lg bg-brand-600 text-white font-bold flex items-center justify-center text-sm">3</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm">Live Socratic Tutoring</h4>
+                                    <p class="text-xs text-slate-500">Deep interactive problem solving where students actively explain concepts.</p>
+                                </div>
+                            </div>
+                            <div class="bg-white p-4 rounded-xl shadow-xs border border-slate-100 flex items-center gap-4">
+                                <div class="w-9 h-9 rounded-lg bg-brand-600 text-white font-bold flex items-center justify-center text-sm">4</div>
+                                <div>
+                                    <h4 class="font-bold text-slate-800 text-sm">Progress Tracking & Retention</h4>
+                                    <p class="text-xs text-slate-500">Bi-weekly mock challenges and real-time parent progress dashboards.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Educators Grid -->
+                <div class="mt-20">
+                    <div class="text-center max-w-2xl mx-auto mb-12">
+                        <span class="text-xs font-bold uppercase tracking-wider text-brand-600">Faculty Leadership</span>
+                        <h2 class="text-3xl font-extrabold text-slate-900 mt-1">Meet Our Master Instructors</h2>
+                        <p class="text-slate-600 text-sm mt-2">Passionate educators with credentials from the world's most prestigious institutions.</p>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="bg-white rounded-2xl border border-slate-200 p-6 text-center hover:-translate-y-1 transition-all">
+                            <div class="w-20 h-20 mx-auto rounded-full bg-blue-100 text-brand-700 font-bold text-2xl flex items-center justify-center mb-4 border-2 border-brand-200">
+                                SV
+                            </div>
+                            <h4 class="font-bold text-slate-900 text-lg">Dr. Sarah Vance</h4>
+                            <p class="text-xs font-semibold text-brand-600 mb-2">Head of STEM & Calculus</p>
+                            <p class="text-xs text-slate-500">Ph.D. Stanford University. 11+ years guiding students into Ivy League mathematics programs.</p>
+                        </div>
+
+                        <div class="bg-white rounded-2xl border border-slate-200 p-6 text-center hover:-translate-y-1 transition-all">
+                            <div class="w-20 h-20 mx-auto rounded-full bg-emerald-100 text-emerald-700 font-bold text-2xl flex items-center justify-center mb-4 border-2 border-emerald-200">
+                                MT
+                            </div>
+                            <h4 class="font-bold text-slate-900 text-lg">Marcus Thorne</h4>
+                            <p class="text-xs font-semibold text-emerald-600 mb-2">Director of Computer Science</p>
+                            <p class="text-xs text-slate-500">Former Meta Staff Engineer. Author of beginner-friendly programming books & curriculum.</p>
+                        </div>
+
+                        <div class="bg-white rounded-2xl border border-slate-200 p-6 text-center hover:-translate-y-1 transition-all">
+                            <div class="w-20 h-20 mx-auto rounded-full bg-amber-100 text-amber-700 font-bold text-2xl flex items-center justify-center mb-4 border-2 border-amber-200">
+                                ER
+                            </div>
+                            <h4 class="font-bold text-slate-900 text-lg">Elena Rostova</h4>
+                            <p class="text-xs font-semibold text-amber-600 mb-2">Lead SAT/ACT Strategist</p>
+                            <p class="text-xs text-slate-500">Perfect 1600 Scorer, Columbia Alum. Mentored over 1,400 students to top 99th percentile.</p>
+                        </div>
+
+                        <div class="bg-white rounded-2xl border border-slate-200 p-6 text-center hover:-translate-y-1 transition-all">
+                            <div class="w-20 h-20 mx-auto rounded-full bg-purple-100 text-purple-700 font-bold text-2xl flex items-center justify-center mb-4 border-2 border-purple-200">
+                                CD
+                            </div>
+                            <h4 class="font-bold text-slate-900 text-lg">Camille Dupont</h4>
+                            <p class="text-xs font-semibold text-purple-600 mb-2">Head of Modern Languages</p>
+                            <p class="text-xs text-slate-500">Sorbonne Paris Graduate. Certified DELE/DELF examiner with expertise in rapid bilingual immersion.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- ========================================== -->
+        <section id="page-pricing" class="page-view">
+            <div class="bg-gradient-to-b from-brand-50/60 to-white py-12 border-b border-slate-200">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-600">Transparent Investment</span>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 mt-2">Affordable Plans. Exceptional Results.</h1>
+                    <p class="text-slate-600 max-w-2xl mx-auto mt-3 text-sm sm:text-base">No hidden registration fees. Cancel anytime or switch between tiers with a single click.</p>
+                </div>
+            </div>
+
+            <!-- Pricing Tiers -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="grid lg:grid-cols-3 gap-8 items-stretch">
+                    
+                    <!-- Basic Tier -->
+                    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-xl font-bold text-slate-900">Starter Group</h3>
+                                <span class="bg-slate-100 text-slate-600 text-xs font-bold px-3 py-1 rounded-full">Small Cohort</span>
+                            </div>
+                            <p class="text-slate-500 text-xs mb-6">Ideal for regular homework assistance and foundational syllabus coverage.</p>
+                            <div class="mb-6">
+                                <span class="text-4xl font-extrabold text-slate-900">$129</span>
+                                <span class="text-slate-500 text-sm"> / month</span>
+                            </div>
+                            <ul class="space-y-3 text-sm text-slate-600 mb-8">
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-600"></i> 4 to 6 students per cohort</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-600"></i> 8 hours of live classes/mo</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-600"></i> Weekly homework assignments</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-600"></i> Full class recording access</li>
+                                <li class="flex items-center gap-3 text-slate-400"><i class="fa-solid fa-xmark"></i> 1-on-1 Dedicated Tutor</li>
+                                <li class="flex items-center gap-3 text-slate-400"><i class="fa-solid fa-xmark"></i> WhatsApp Instant Doubt Desk</li>
+                            </ul>
+                        </div>
+                        <button onclick="navigateTo('contact')" class="w-full py-3 px-4 rounded-xl border-2 border-brand-600 text-brand-600 font-bold hover:bg-brand-50 transition-colors">Start Free Trial</button>
+                    </div>
+
+                    <!-- Pro Scholar Tier (Popular) -->
+                    <div class="bg-white rounded-3xl p-8 border-2 border-brand-600 shadow-xl relative flex flex-col justify-between scale-100 lg:-translate-y-2">
+                        <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-brand-600 to-indigo-600 text-white text-xs font-bold uppercase tracking-wider py-1 px-4 rounded-full shadow-md">
+                            Most Popular Choice
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-4 mt-1">
+                                <h3 class="text-xl font-bold text-slate-900">Pro Scholar 1-on-1</h3>
+                                <span class="bg-brand-100 text-brand-700 text-xs font-bold px-3 py-1 rounded-full">Personalized</span>
+                            </div>
+                            <p class="text-slate-500 text-xs mb-6">Custom pace designed specifically for fast exam score boosts & AP prep.</p>
+                            <div class="mb-6">
+                                <span class="text-4xl font-extrabold text-slate-900">$249</span>
+                                <span class="text-slate-500 text-sm"> / month</span>
+                            </div>
+                            <ul class="space-y-3 text-sm text-slate-600 mb-8">
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-600"></i> <strong>1-on-1 Private Sessions</strong></li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-600"></i> 12 hours dedicated mentorship/mo</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-600"></i> Instant 24/7 Doubt Resolution</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-600"></i> Customized diagnostic reports</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-emerald-600"></i> Parent-Tutor monthly sync</li>
+                                <li class="flex items-center gap-3 text-slate-400"><i class="fa-solid fa-xmark"></i> Dedicated College Counseling</li>
+                            </ul>
+                        </div>
+                        <button onclick="navigateTo('contact')" class="w-full py-3 px-4 rounded-xl bg-brand-600 text-white font-bold hover:bg-brand-700 shadow-lg shadow-brand-600/25 transition-all">Claim Pro Free Trial</button>
+                    </div>
+
+                    <!-- Elite Tier -->
+                    <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-xl font-bold text-slate-900">Elite Ivy Track</h3>
+                                <span class="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1 rounded-full">Comprehensive</span>
+                            </div>
+                            <p class="text-slate-500 text-xs mb-6">Complete end-to-end guidance for high achievers targeting premier universities.</p>
+                            <div class="mb-6">
+                                <span class="text-4xl font-extrabold text-slate-900">$449</span>
+                                <span class="text-slate-500 text-sm"> / month</span>
+                            </div>
+                            <ul class="space-y-3 text-sm text-slate-600 mb-8">
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-600"></i> Unlimited 1-on-1 tutoring sessions</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-600"></i> College admissions & essay review</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-600"></i> Top PhD mentor dedicated matching</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-600"></i> SAT / ACT intensive bootcamp</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-600"></i> Weekly parent strategy calls</li>
+                                <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-600"></i> 100% money-back satisfaction pledge</li>
+                            </ul>
+                        </div>
+                        <button onclick="navigateTo('contact')" class="w-full py-3 px-4 rounded-xl border-2 border-brand-600 text-brand-600 font-bold hover:bg-brand-50 transition-colors">Start Elite Track</button>
+                    </div>
+
+                </div>
+
+                <!-- Comparison Feature Table -->
+                <div class="mt-20">
+                    <h3 class="text-2xl font-bold text-slate-900 text-center mb-8">Compare Plan Features Side-by-Side</h3>
+                    <div class="overflow-x-auto bg-white rounded-2xl border border-slate-200 shadow-xs">
+                        <table class="w-full text-left text-sm text-slate-600">
+                            <thead class="bg-slate-50 border-b border-slate-200 text-slate-900 font-bold">
+                                <tr>
+                                    <th class="p-4 sm:p-5">Feature</th>
+                                    <th class="p-4 sm:p-5 text-center">Starter</th>
+                                    <th class="p-4 sm:p-5 text-center bg-blue-50/50 text-brand-700">Pro Scholar</th>
+                                    <th class="p-4 sm:p-5 text-center">Elite Ivy Track</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <tr>
+                                    <td class="p-4 font-medium text-slate-900">Student to Tutor Ratio</td>
+                                    <td class="p-4 text-center">Small Group (1:5)</td>
+                                    <td class="p-4 text-center bg-blue-50/30 font-semibold text-brand-700">1-on-1 Direct</td>
+                                    <td class="p-4 text-center">1-on-1 Direct + Lead Head</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium text-slate-900">Live Hours / Month</td>
+                                    <td class="p-4 text-center">8 Hours</td>
+                                    <td class="p-4 text-center bg-blue-50/30 font-semibold text-brand-700">12 Hours</td>
+                                    <td class="p-4 text-center">Unlimited Core Hours</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium text-slate-900">Doubt Clearing Turnaround</td>
+                                    <td class="p-4 text-center">Next Session</td>
+                                    <td class="p-4 text-center bg-blue-50/30 font-semibold text-brand-700">&lt; 15 Minutes</td>
+                                    <td class="p-4 text-center">Instant VIP Hotline</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium text-slate-900">Rescheduling Flexibility</td>
+                                    <td class="p-4 text-center">24 hrs notice</td>
+                                    <td class="p-4 text-center bg-blue-50/30 font-semibold text-brand-700">4 hrs notice</td>
+                                    <td class="p-4 text-center">Anytime on demand</td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-medium text-slate-900">Mock Exam Simulations</td>
+                                    <td class="p-4 text-center">Monthly</td>
+                                    <td class="p-4 text-center bg-blue-50/30 font-semibold text-brand-700">Bi-Weekly</td>
+                                    <td class="p-4 text-center">Weekly + Adaptive</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Guarantee Badge Banner -->
+                <div class="mt-12 bg-blue-50 border border-blue-200 rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+                    <div class="w-16 h-16 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-3xl shrink-0 shadow-md">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-bold text-slate-900">100% Satisfaction & Grade Improvement Guarantee</h4>
+                        <p class="text-slate-600 text-sm mt-1">If your student does not feel visibly more confident or see an upward trajectory within the first 14 days, we refund your enrollment immediately with zero quibbles.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- ========================================== -->
+        <section id="page-contact" class="page-view">
+            <div class="bg-gradient-to-b from-brand-50/60 to-white py-12 border-b border-slate-200">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-600">Get In Touch</span>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 mt-2">Book Your Free 1-on-1 Trial Class</h1>
+                    <p class="text-slate-600 max-w-2xl mx-auto mt-3 text-sm sm:text-base">Experience our collaborative whiteboard and meet a handpicked educator. No payment info required.</p>
+                </div>
+            </div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="grid lg:grid-cols-12 gap-12">
+                    
+                    <!-- Form Container (Col 7) -->
+                    <div class="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-lg">
+                        <h3 class="text-2xl font-bold text-slate-900 mb-2">Schedule Free Diagnostic Session</h3>
+                        <p class="text-slate-500 text-xs sm:text-sm mb-6">Fill in the student details below. Our academic advisor will confirm your trial slot within 2 hours.</p>
+
+                        <!-- Submission Feedback Box -->
+                        <div id="booking-success-msg" class="hidden mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm flex items-start gap-3">
+                            <i class="fa-solid fa-circle-check text-emerald-600 text-lg mt-0.5"></i>
+                            <div>
+                                <span class="font-bold block">Trial Booking Request Received!</span>
+                                <p class="text-emerald-700 text-xs mt-0.5">We have sent a confirmation email with Zoom link and tutor profile. We will contact you shortly.</p>
+                            </div>
+                        </div>
+
+                        <form id="trial-booking-form" onsubmit="handleTrialSubmit(event)" class="space-y-4">
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1" for="student_name">Student Name *</label>
+                                    <input type="text" id="student_name" required placeholder="e.g. Alex Johnson" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1" for="parent_email">Parent / Student Email *</label>
+                                    <input type="email" id="parent_email" required placeholder="name@example.com" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm">
+                                </div>
+                            </div>
+
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1" for="phone_number">Phone / WhatsApp *</label>
+                                    <input type="tel" id="phone_number" required placeholder="+1 (555) 000-0000" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1" for="student_grade">Grade / Year Level *</label>
+                                    <select id="student_grade" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm bg-white">
+                                        <option value="">Select current grade</option>
+                                        <option value="Middle School (Grades 6-8)">Middle School (Grades 6-8)</option>
+                                        <option value="High School (Grades 9-10)">High School (Grades 9-10)</option>
+                                        <option value="High School Senior (Grades 11-12 / AP)">High School (Grades 11-12 / AP / IB)</option>
+                                        <option value="College / Adult Learner">College / Adult Learner</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1" for="target_subject">Subject Interest *</label>
+                                    <select id="target_subject" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm bg-white">
+                                        <option value="">Choose subject</option>
+                                        <option value="Advanced Mathematics & Calculus">Advanced Mathematics & Calculus</option>
+                                        <option value="Physics & Chemistry">Physics & Chemistry</option>
+                                        <option value="Computer Science & Python">Computer Science & Python</option>
+                                        <option value="SAT & ACT Test Preparation">SAT & ACT Test Preparation</option>
+                                        <option value="Languages (Spanish / French)">Languages (Spanish / French)</option>
+                                        <option value="Other Custom Coaching">Other Custom Coaching</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold uppercase text-slate-700 mb-1" for="preferred_time">Preferred Time of Day</label>
+                                    <select id="preferred_time" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm bg-white">
+                                        <option value="Weekday Afternoons (4 PM - 7 PM)">Weekday Afternoons (4 PM - 7 PM)</option>
+                                        <option value="Weekday Evenings (7 PM - 9 PM)">Weekday Evenings (7 PM - 9 PM)</option>
+                                        <option value="Weekend Mornings (9 AM - 12 PM)">Weekend Mornings (9 AM - 12 PM)</option>
+                                        <option value="Weekend Afternoons (1 PM - 5 PM)">Weekend Afternoons (1 PM - 5 PM)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold uppercase text-slate-700 mb-1" for="student_notes">Specific Academic Goals or Challenges</label>
+                                <textarea id="student_notes" rows="3" placeholder="Tell us about specific tests, upcoming chapters, or topics causing difficulty..." class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full py-4 rounded-xl bg-brand-600 hover:bg-brand-700 active:scale-98 text-white font-bold text-base shadow-lg shadow-brand-600/30 transition-all flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Confirm Free Demo Booking</span>
+                            </button>
+                            <p class="text-[11px] text-center text-slate-400">By booking, you agree to receive session link details via Email & SMS. No spam guaranteed.</p>
+                        </form>
+                    </div>
+
+                    <!-- Contact Details & Map Card (Col 5) -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+                            <h3 class="text-xl font-bold text-slate-900">Direct Support Center</h3>
+                            
+                            <div class="space-y-4 text-sm">
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-600 flex items-center justify-center shrink-0">
+                                        <i class="fa-solid fa-phone"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-slate-400 font-semibold uppercase">Toll-Free Helpline</p>
+                                        <a href="tel:+18005550199" class="font-bold text-slate-800 hover:text-brand-600 transition-colors">+1 (800) 555-0199</a>
+                                        <p class="text-[11px] text-slate-500">Mon - Sat (8:00 AM - 9:00 PM EST)</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-600 flex items-center justify-center shrink-0">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-slate-400 font-semibold uppercase">Admissions & Inquiries</p>
+                                        <a href="mailto:admissions@apexacademy.edu" class="font-bold text-slate-800 hover:text-brand-600 transition-colors">admissions@apexacademy.edu</a>
+                                        <p class="text-[11px] text-slate-500">Typical response time: under 30 mins</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start gap-4">
+                                    <div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-600 flex items-center justify-center shrink-0">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-slate-400 font-semibold uppercase">Academic Headquarters</p>
+                                        <p class="font-bold text-slate-800">Apex Learning Hub, Suite 400</p>
+                                        <p class="text-[11px] text-slate-500">742 Evergreen Academic Way, Boston, MA 02115</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stylized Global Coverage Map Card -->
+                        <div class="bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-3xl p-6 shadow-md relative overflow-hidden">
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-xs font-bold uppercase tracking-wider text-brand-400">Global Virtual Presence</span>
+                                <span class="flex items-center gap-1.5 text-xs text-emerald-400 font-semibold">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Live Worldwide
+                                </span>
+                            </div>
+                            <div class="h-36 rounded-xl bg-slate-800/60 border border-slate-700 flex items-center justify-center relative p-4 text-center">
+                                <div>
+                                    <i class="fa-solid fa-earth-americas text-4xl text-brand-400 mb-2"></i>
+                                    <p class="text-xs font-medium text-slate-300">Live sessions streaming across US, UK, Canada, Australia & Singapore</p>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex justify-between text-xs text-slate-400 font-mono">
+                                <span>Server Latency: &lt;18ms</span>
+                                <span>SSL 256-Bit Encrypted</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-800">
+                
+                <!-- Brand Summary & Socials (Col 2) -->
+                <div class="lg:col-span-2 space-y-5">
+                    <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
+                        <div class="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center text-white shadow-md">
+                            <i class="fa-solid fa-graduation-cap text-lg"></i>
+                        </div>
+                        <span class="text-2xl font-black tracking-tight text-white">Apex<span class="text-brand-500">Academy</span></span>
+                    </div>
+                    <p class="text-sm text-slate-400 leading-relaxed max-w-sm">
+                        Inspiring the next generation of scholars and problem solvers through customized 1-on-1 tutoring, elite faculty, and AI-assisted performance telemetry.
+                    </p>
+                    
+                    <!-- Social Media Icons with Hover Transitions -->
+                    <div class="pt-2">
+                        <span class="text-xs uppercase tracking-wider text-slate-500 font-bold block mb-3">Connect With Us</span>
+                        <div class="flex items-center gap-3">
+                            <a href="#home" aria-label="Facebook" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-300 hover:-translate-y-1">
+                                <i class="fa-brands fa-facebook-f"></i>
+                            </a>
+                            <a href="#home" aria-label="Twitter / X" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-black text-slate-300 hover:text-white flex items-center justify-center transition-all duration-300 hover:-translate-y-1">
+                                <i class="fa-brands fa-x-twitter"></i>
+                            </a>
+                            <a href="#home" aria-label="Instagram" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-pink-600 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-300 hover:-translate-y-1">
+                                <i class="fa-brands fa-instagram"></i>
+                            </a>
+                            <a href="#home" aria-label="LinkedIn" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-blue-700 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-300 hover:-translate-y-1">
+                                <i class="fa-brands fa-linkedin-in"></i>
+                            </a>
+                            <a href="#home" aria-label="YouTube" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-red-600 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-300 hover:-translate-y-1">
+                                <i class="fa-brands fa-youtube"></i>
+                            </a>
+                            <a href="#home" aria-label="Discord" class="w-10 h-10 rounded-xl bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white flex items-center justify-center transition-all duration-300 hover:-translate-y-1">
+                                <i class="fa-brands fa-discord"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Navigation Links -->
+                <div>
+                    <h4 class="text-white text-sm font-bold uppercase tracking-wider mb-4">Quick Navigation</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><button onclick="navigateTo('home')" class="hover:text-white transition-colors">Home Page</button></li>
+                        <li><button onclick="navigateTo('courses')" class="hover:text-white transition-colors">Course Catalog</button></li>
+                        <li><button onclick="navigateTo('about')" class="hover:text-white transition-colors">About Our Academy</button></li>
+                        <li><button onclick="navigateTo('pricing')" class="hover:text-white transition-colors">Pricing & Plans</button></li>
+                        <li><button onclick="navigateTo('contact')" class="hover:text-white transition-colors">Book Free Trial</button></li>
+                    </ul>
+                </div>
+
+                <!-- Academic Subjects -->
+                <div>
+                    <h4 class="text-white text-sm font-bold uppercase tracking-wider mb-4">Programs</h4>
+                    <ul class="space-y-2.5 text-sm">
+                        <li><button onclick="navigateTo('courses'); filterCourses('stem')" class="hover:text-white transition-colors">Calculus & Math</button></li>
+                        <li><button onclick="navigateTo('courses'); filterCourses('stem')" class="hover:text-white transition-colors">AP Physics & Chemistry</button></li>
+                        <li><button onclick="navigateTo('courses'); filterCourses('coding')" class="hover:text-white transition-colors">Python & Algorithms</button></li>
+                        <li><button onclick="navigateTo('courses'); filterCourses('testprep')" class="hover:text-white transition-colors">Digital SAT 1500+</button></li>
+                        <li><button onclick="navigateTo('courses'); filterCourses('languages')" class="hover:text-white transition-colors">Spanish & French</button></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter Subscribe -->
+                <div class="space-y-4">
+                    <h4 class="text-white text-sm font-bold uppercase tracking-wider">Stay Updated</h4>
+                    <p class="text-xs text-slate-400">Receive free study guides, cheat sheets, and webinar invites.</p>
+                    <form onsubmit="handleNewsletter(event)" class="space-y-2">
+                        <input type="email" required placeholder="Enter parent/student email" class="w-full px-3.5 py-2.5 bg-slate-800 text-white rounded-xl border border-slate-700 text-xs focus:outline-none focus:border-brand-500">
+                        <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs py-2.5 rounded-xl transition-colors">Subscribe</button>
+                    </form>
+                    <div id="newsletter-toast" class="hidden text-xs text-emerald-400 font-medium">
+                        <i class="fa-solid fa-check"></i> Thanks for subscribing!
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Footer Bottom Bar -->
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+                <p>&copy; 2026 Apex Academy Online Coaching Inc. All rights reserved.</p>
+                <div class="flex items-center gap-6">
+                    <a href="#about" onclick="navigateTo('about')" class="hover:text-slate-400">Privacy Policy</a>
+                    <a href="#about" onclick="navigateTo('about')" class="hover:text-slate-400">Terms of Service</a>
+                    <a href="#about" onclick="navigateTo('about')" class="hover:text-slate-400">Honor Code</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Client-side Page Router
+        const validPages = ['home', 'courses', 'about', 'pricing', 'contact'];
+
+        function navigateTo(pageId) {
+            if (!validPages.includes(pageId)) {
+                pageId = 'home';
+            }
+
+            // Hide all pages
+            document.querySelectorAll('.page-view').forEach(view => {
+                view.classList.remove('active');
+            });
+
+            // Show selected page
+            const activePage = document.getElementById(`page-${pageId}`);
+            if (activePage) {
+                activePage.classList.add('active');
+            }
+
+            // Update Desktop Nav Active States
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.getAttribute('data-target') === pageId) {
+                    link.classList.add('active-nav');
+                } else {
+                    link.classList.remove('active-nav');
+                }
+            });
+
+            // Update URL Hash without reload
+            window.location.hash = pageId;
+
+            // Close Mobile Menu if open
+            const mobileMenu = document.getElementById('mobile-nav');
+            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+                document.getElementById('menu-icon').className = 'fa-solid fa-bars text-xl';
+            }
+
+            // Smooth Scroll to Top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialize Router based on current URL Hash
+        function initRouter() {
+            const currentHash = window.location.hash.replace('#', '');
+            if (validPages.includes(currentHash)) {
+                navigateTo(currentHash);
+            } else {
+                navigateTo('home');
+            }
+        }
+
+        // Listen for browser back/forward buttons
+        window.addEventListener('hashchange', () => {
+            const currentHash = window.location.hash.replace('#', '');
+            if (validPages.includes(currentHash)) {
+                navigateTo(currentHash);
+            }
+        });
+
+        // Mobile Nav Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileNav = document.getElementById('mobile-nav');
+        const menuIcon = document.getElementById('menu-icon');
+
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                const isHidden = mobileNav.classList.toggle('hidden');
+                menuIcon.className = isHidden ? 'fa-solid fa-bars text-xl' : 'fa-solid fa-xmark text-xl';
+            });
+        }
+
+        // Course Filtering Logic
+        function filterCourses(category) {
+            const cards = document.querySelectorAll('.course-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            buttons.forEach(btn => {
+                btn.className = 'filter-btn bg-white hover:bg-slate-100 text-slate-700 px-5 py-2 rounded-xl text-xs sm:text-sm font-semibold border border-slate-200 transition-all';
+            });
+
+            // Highlight active button if triggered directly
+            if (event && event.currentTarget && event.currentTarget.classList.contains('filter-btn')) {
+                event.currentTarget.className = 'filter-btn bg-brand-600 text-white px-5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all';
+            }
+
+            cards.forEach(card => {
+                if (category === 'all' || card.classList.contains(category)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Pre-fill Subject when enrolling from Courses
+        function selectCourseToEnroll(courseName) {
+            navigateTo('contact');
+            const subjectSelect = document.getElementById('target_subject');
+            if (subjectSelect) {
+                // Try matching or set custom notes
+                if (courseName.includes('Calculus')) {
+                    subjectSelect.value = 'Advanced Mathematics & Calculus';
+                } else if (courseName.includes('Python') || courseName.includes('Web')) {
+                    subjectSelect.value = 'Computer Science & Python';
+                } else if (courseName.includes('SAT')) {
+                    subjectSelect.value = 'SAT & ACT Test Preparation';
+                } else if (courseName.includes('Physics')) {
+                    subjectSelect.value = 'Physics & Chemistry';
+                } else if (courseName.includes('Spanish')) {
+                    subjectSelect.value = 'Languages (Spanish / French)';
+                } else {
+                    subjectSelect.value = 'Other Custom Coaching';
+                }
+                const notes = document.getElementById('student_notes');
+                if (notes) {
+                    notes.value = `Interested specifically in: ${courseName}`;
+                }
+            }
+        }
+
+        // Trial Booking Form Submission Handler
+        function handleTrialSubmit(e) {
+            e.preventDefault();
+            const successBox = document.getElementById('booking-success-msg');
+            const form = document.getElementById('trial-booking-form');
+            if (successBox) {
+                successBox.classList.remove('hidden');
+                form.reset();
+                successBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        // Newsletter Subscription Handler
+        function handleNewsletter(e) {
+            e.preventDefault();
+            const toast = document.getElementById('newsletter-toast');
+            if (toast) {
+                toast.classList.remove('hidden');
+                e.target.reset();
+                setTimeout(() => {
+                    toast.classList.add('hidden');
+                }, 4000);
+            }
+        }
+
+        // FAQ Accordion Handlers
+        document.querySelectorAll('.faq-toggle').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('i');
+                const isHidden = content.classList.toggle('hidden');
+                if (icon) {
+                    icon.style.transform = isHidden ? 'rotate(0deg)' : 'rotate(180deg)';
+                }
+            });
+        });
+
+        // Run on initial load
+        document.addEventListener('DOMContentLoaded', initRouter);
+    </script>
+</body>
+</html>
